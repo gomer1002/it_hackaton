@@ -1,0 +1,240 @@
+{% extends "client/base.html" %}
+<!--  -->
+{% block title %}Login{% endblock %}
+<!--  -->
+{% block styles %}
+<link
+    href="{{ url_for('client.static',filename='css/login_styles.css') }}"
+    rel="stylesheet"
+/>
+{% endblock %}
+<!--  -->
+{% block body %}
+
+<!-- ##### Header Area Start ##### -->
+<header class="header_wrapper">
+    <div class="container py-0">
+        <div class="row px-3">
+            <div
+                class="col-12 col-md-4 col-lg-3 header_area classy-nav-container breakpoint-off d-flex align-items-center justify-content-between"
+            >
+                <nav class="classy-navbar" id="essenceNav">
+                    <!-- Logo -->
+                    <a class="nav-brand" href="/"
+                        ><img
+                            src="{{ url_for('client.static',filename='img/placeholder.svg') }}"
+                            alt=""
+                            style="width: 15.8093mm; height: 7.8368mm;"
+                    /></a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ##### Header Area End ##### -->
+
+<div class="row p-0 m-0" style="height: 80vh; color: #565656">
+    <div class="row d-flex align-items-center justify-content-center">
+        <div
+            class="row d-flex align-items-center justify-content-center align-self-center"
+        >
+            <div class="col-sm-2 col-md-2 col-lg-4 col-xl-4"></div>
+
+            <!-- блок формы -->
+            <div
+                class="px-1 col-10 col-sm-8 col-md-5 col-lg-4 col-xl-4"
+                style="max-width: 400px"
+            >
+                <!-- если необходимо показать форму -->
+                {% if show_login %}
+                <!-- кнопки переключения форм -->
+                <ul
+                    class="nav nav-pills nav-justified mb-3"
+                    id="ex1"
+                    role="tablist"
+                >
+                    <li class="nav-item" role="presentation">
+                        <a
+                            class="nav-link active"
+                            id="tab-login"
+                            data-mdb-toggle="pill"
+                            href="#pills-login"
+                            role="tab"
+                            aria-controls="pills-login"
+                            aria-selected="true"
+                            >Вход</a
+                        >
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a
+                            class="nav-link"
+                            id="tab-register"
+                            data-mdb-toggle="pill"
+                            href="#pills-register"
+                            role="tab"
+                            aria-controls="pills-register"
+                            aria-selected="false"
+                            >Регистрация</a
+                        >
+                    </li>
+                </ul>
+                <!-- формы -->
+                <div class="tab-content">
+                    <div
+                        class="tab-pane fade show active"
+                        id="pills-login"
+                        role="tabpanel"
+                        aria-labelledby="tab-login"
+                    >
+                        <!-- форма авторизации -->
+                        <form id="loginForm" data-redirect-target="/">
+                            <!-- ввод телефона -->
+                            <div class="form-outline mb-4">
+                                <input
+                                    type="email"
+                                    id="loginEmail"
+                                    name="loginEmail"
+                                    data-email-input
+                                    class="form-control"
+                                    placeholder="example@gmail.com"
+                                    minlength="8"
+                                    required=""
+                                />
+                                <label class="form-label" for="loginEmail"
+                                    >Email</label
+                                >
+                            </div>
+                            <!-- ввод пароля -->
+                            <div class="form-outline mb-4">
+                                <input
+                                    type="password"
+                                    id="loginPassword"
+                                    class="form-control"
+                                    minlength="8"
+                                    required
+                                />
+                                <label class="form-label" for="loginPassword"
+                                    >Пароль</label
+                                >
+                            </div>
+                            <!-- кнопка авторизации -->
+                            <button
+                                type="submit"
+                                data-submit-button="Войти"
+                                class="btn btn-block essence-btn mb-4"
+                            >
+                                Войти
+                            </button>
+                        </form>
+                    </div>
+                    <div
+                        class="tab-pane fade"
+                        id="pills-register"
+                        role="tabpanel"
+                        aria-labelledby="tab-register"
+                    >
+                        <!-- форма регистрации -->
+                        <form id="registerForm" data-redirect-target="/">
+                            <!-- ввод имени -->
+                            <div class="form-outline mb-4">
+                                <input
+                                    type="text"
+                                    id="registerFirstName"
+                                    class="form-control"
+                                    required
+                                />
+                                <label class="form-label" for="registerFirstName"
+                                    >Имя</label
+                                >
+                            </div>
+                            <!-- ввод фамилии -->
+                            <div class="form-outline mb-4">
+                                <input
+                                    type="text"
+                                    id="registerLastName"
+                                    class="form-control"
+                                    required
+                                />
+                                <label class="form-label" for="registerLastName"
+                                    >Фамилия</label
+                                >
+                            </div>
+                            <!-- ввод телефона -->
+                            <div class="form-outline mb-4">
+                                <input
+                                    type="email"
+                                    id="registerEmail"
+                                    name="registerEmail"
+                                    data-email-input
+                                    class="form-control"
+                                    placeholder="example@gmail.com"
+                                    minlength="8"
+                                    required=""
+                                />
+                                <label class="form-label" for="registerEmail"
+                                    >Email</label
+                                >
+                            </div>
+                            <!-- ввод пароля -->
+                            <div class="form-outline mb-4">
+                                <input
+                                    type="password"
+                                    id="registerPassword"
+                                    class="form-control"
+                                    minlength="8"
+                                    required
+                                />
+                                <label class="form-label" for="registerPassword"
+                                    >Пароль</label
+                                >
+                            </div>
+                            <!-- ввод повторения пароля -->
+                            <div class="form-outline mb-4">
+                                <input
+                                    type="password"
+                                    id="registerRepeatPassword"
+                                    class="form-control"
+                                    required
+                                />
+                                <label
+                                    class="form-label"
+                                    for="registerRepeatPassword"
+                                    >Пароль еще раз</label
+                                >
+                            </div>
+                            <!-- кнопка регистрации -->
+                            <button
+                                type="submit"
+                                id="registerSubmit"
+                                data-submit-button="Зарегистрироваться"
+                                class="btn btn-block essence-btn mb-3"
+                            >
+                                Зарегистрироваться
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <!-- переадресация если пользователь авторизован -->
+                <script>
+                    window.location.href = "/";
+                </script>
+                {% endif %}
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-4 col-xl-4"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+<!--  -->
+
+{% block scripts %}
+
+<!-- подключение главного скрипта авторизации и регистрации -->
+<script
+    type="text/javascript"
+    src="{{ url_for('client.static',filename='js/login/login_main.js') }}"
+></script>
+
+{% endblock %}
