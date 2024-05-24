@@ -3,6 +3,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 How to run:
+
 Создаем витруальное окружение
 
 ```
@@ -15,7 +16,7 @@ py -m venv env
 .\env\Scripts\activate
 ```
 
-Устанавливаем необходимы для работы проекта пакеты
+Устанавливаем необходимые для работы проекта пакеты
 
 ```
 py -m pip install -r .\requirements.txt
@@ -26,5 +27,5 @@ py -m pip install -r .\requirements.txt
 Запускаем проект
 
 ```
-manager.py run
+py .\manager.py
 ```
