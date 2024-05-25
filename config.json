@@ -1,0 +1,6 @@
+{
+    "SQLITE_DATABASE_PATH": "./app.db",
+    "JWT_SECRET_KEY": "BP8y0jEO4OMdRhebuv6XYc3pH5DCOfN46In0mDLW2s4ByZSv_meIi1JM1sh5GJXeqdzUir_J_uguopIYpN1c1Fc",
+    "SYS_PEPPER": "81c43252b9901956f0c8b980f89c66d9af4bf1cfe827034cb7a7bdd11093147f",
+    "SYS_ROOT_URL": "http://localhost"
+}

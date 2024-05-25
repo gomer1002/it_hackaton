@@ -40,10 +40,10 @@ from app.api.auth.views import auth
 
 app.register_blueprint(auth)
 
-# здесь будет api/menu системы
-# from app.api.menu.views import menu
+# здесь будет api/task системы
+from app.api.task.views import task
 
-# app.register_blueprint(menu)
+app.register_blueprint(task)
 
 # здесь будет api/order системы
 # from app.api.order.views import order

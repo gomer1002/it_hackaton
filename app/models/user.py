@@ -48,15 +48,7 @@ class User:
         self.department = department
         self.description = description
         self.role = role if role else Role.pupil
-        self.rights = (
-            rights
-            if isinstance(rights, list)
-            else [
-                Right.access_user_panel,
-                Right.place_order,
-                Right.purchase_order,
-            ]
-        )
+        self.rights = rights if isinstance(rights, list) else [Right.unverified]
         self.registered_on = get_time()
         self.registered_on_unix = get_time(get_timestamp=True)
 
@@ -106,7 +98,7 @@ class User:
                 conn = get_db_connection()
                 cur = conn.cursor()
                 data = self.serialize(with_register=True)
-                query = f"INSERT INTO users ({', '.join(data.keys())}) VALUES ({', '.join(['?'] * len(data.keys()))})"
+                query = f"INSERT INTO {self.__tablename__} ({', '.join(data.keys())}) VALUES ({', '.join(['?'] * len(data.keys()))})"
                 try:
                     cur.execute(query, list(data.values()))
                 except IntegrityError as e:
@@ -143,7 +135,7 @@ class User:
                 fields.append(f"{key} = ?")
                 values.append(value)
             values.append(self.uid)
-            query = f"UPDATE users SET {', '.join(fields)} WHERE uid = ?"
+            query = f"UPDATE {self.__tablename__} SET {', '.join(fields)} WHERE uid = ?"
             cur.execute(query, values)
             conn.commit()
             cur.close()
@@ -186,7 +178,7 @@ class User:
         try:
             conn = get_db_connection()
             cur = conn.cursor()
-            query = "SELECT * FROM users"
+            query = f"SELECT * FROM {cls.__tablename__}"
             cur.execute(query)
             users = cur.fetchall()
             cur.close()
@@ -220,7 +212,7 @@ class User:
         try:
             conn = get_db_connection()
             cur = conn.cursor()
-            query = "SELECT * FROM users WHERE uid = ?"
+            query = f"SELECT * FROM {cls.__tablename__} WHERE uid = ?"
             cur.execute(query, (uid,))
             user = cur.fetchone()
             cur.close()
@@ -237,7 +229,7 @@ class User:
         try:
             conn = get_db_connection()
             cur = conn.cursor()
-            query = "SELECT * FROM users WHERE phone = ?"
+            query = f"SELECT * FROM {cls.__tablename__} WHERE phone = ?"
             cur.execute(query, (phone,))
             user = cur.fetchone()
             cur.close()
@@ -254,7 +246,7 @@ class User:
         try:
             conn = get_db_connection()
             cur = conn.cursor()
-            query = "SELECT * FROM users WHERE email = ?"
+            query = f"SELECT * FROM {cls.__tablename__} WHERE email = ?"
             cur.execute(query, (email,))
             user = cur.fetchone()
             cur.close()
@@ -271,7 +263,7 @@ class User:
         try:
             conn = get_db_connection()
             cur = conn.cursor()
-            query = "DELETE FROM users WHERE uid = ?"
+            query = f"DELETE FROM {cls.__tablename__} WHERE uid = ?"
             cur.execute(query, (uid,))
             conn.commit()
             cur.close()
@@ -281,19 +273,12 @@ class User:
             logger.error(str(e))
             return None
 
-    @classmethod
-    def update(cls, data: dict) -> bool | None:
-        """Обновление данных пользователя.
-        :return: True или False."""
-        return True
-
     @staticmethod
     def _pepper_password(password: str) -> str:
         """Добавление к паролю пользователя локального секретного ключа.
         :return: str: строка с локальным секретным ключом и исходной строкой."""
         pepper = app.config.get("PEPPER")
         return f"{password}{pepper}"
-        # return f"{password}{pepper}".encode("utf-8")
 
     @staticmethod
     def _salt_password(password: str) -> str:
