@@ -31,7 +31,7 @@ class Task:
         self.timestamp_unix = timestamp_unix
         self.task_contributor = task_contributor
 
-    def serialize(self) -> dict:
+    def serialize(self, with_register=False) -> dict:
         """Сериализация экземпляра класса в словарь.
         :return: dict."""
         data = {}
@@ -43,17 +43,18 @@ class Task:
             data["task_template"] = self.task_template
         if self.task_additionals:
             data["task_additionals"] = self.task_additionals
-        if self.timestamp:
-            data["timestamp"] = self.timestamp
-        if self.timestamp_unix:
-            data["timestamp_unix"] = self.timestamp_unix
         if self.task_contributor:
             data["task_contributor"] = self.task_contributor
+        if with_register:
+            if self.timestamp:
+                data["timestamp"] = self.timestamp
+            if self.timestamp_unix:
+                data["timestamp_unix"] = self.timestamp_unix
         return data
 
     def save(self):
         """Запись задачи в базу данных.
-        :return: jwt токен или None."""
+        :return: True или None."""
         try:
             task = self.get_by_theme_id(self.theme_id)
             if task is not None:
@@ -81,7 +82,7 @@ class Task:
 
     def update(self):
         """Обновление данных задачи.
-        :return: True или False."""
+        :return: True или None."""
         try:
             conn = get_db_connection()
             cur = conn.cursor()
@@ -91,7 +92,7 @@ class Task:
             for key, value in self.serialize():
                 fields.append(f"{key} = ?")
                 values.append(value)
-            values.append(self.theme_id)
+            values.append(self.task_id)
 
             query = (
                 f"UPDATE {self.__tablename__} SET {', '.join(fields)} WHERE task_id = ?"
