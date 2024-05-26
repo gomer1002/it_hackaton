@@ -49,7 +49,6 @@ class User:
         self.description = description
         self.role = role if role else Role.pupil
         self.rights = rights if isinstance(rights, list) else [Right.unverified]
-        self.registered_on = get_time()
         self.registered_on_unix = get_time(get_timestamp=True)
 
     def serialize(self, with_register=False) -> dict:
@@ -81,8 +80,6 @@ class User:
         if self.password:
             data["password"] = self._salt_password(self._pepper_password(self.password))
         if with_register:
-            if self.registered_on:
-                data["registered_on"] = self.registered_on
             if self.registered_on_unix:
                 data["registered_on_unix"] = self.registered_on_unix
         return data
@@ -104,7 +101,6 @@ class User:
                 except IntegrityError as e:
                     logger.error(str(e))
                     return None
-                print("ok")
                 conn.commit()
                 cur.close()
                 conn.close()
@@ -192,11 +188,10 @@ class User:
                     "first_name": ud["first_name"],
                     "last_name": ud["last_name"],
                     "father_name": ud["father_name"],
-                    "rights": loads(ud["rights"]["0"]),
+                    "rights": loads(ud["rights"])["0"],
                     "role": ud["role"],
                     "email": ud["email"],
                     "phone": ud["phone"],
-                    "registered_on": ud["registered_on"],
                     "registered_on_unix": ud["registered_on_unix"],
                 }
                 k += 1

@@ -8,7 +8,6 @@ from app.api.auth.services import (
 )
 from app.services import response
 from app.models.right import Right
-from app.models.role import Role
 from app.models.user import User
 
 from flask_jwt_extended import jwt_required, get_jwt
@@ -64,7 +63,7 @@ def get_rights_list_view():
 @user.route("/api/user/update", methods=["POST"])
 @jwt_required()
 def update_existing_user_view():
-    """Получение списка пользователей.
+    """Обновление пользователя.
     :return: Json ответ или сообщение об ошибке
     """
     claims = get_jwt()
@@ -77,9 +76,16 @@ def update_existing_user_view():
                 if data["uid"] != logged_uid:
                     User(
                         uid=data["uid"],
+                        photo_url=data["photo_url"],
                         first_name=data["first_name"],
                         last_name=data["last_name"],
+                        father_name=data["father_name"],
+                        phone=data["phone"],
                         email=data["email"],
+                        password=data["password"],
+                        department=data["department"],
+                        description=data["description"],
+                        role=data["role"],
                         rights=data["rights"],
                     ).save()
                     return response(
@@ -96,7 +102,7 @@ def update_existing_user_view():
 @user.route("/api/user/set", methods=["POST"])
 @jwt_required()
 def set_new_user_view():
-    """Получение списка пользователей.
+    """Добавление пользователя.
     :return: Json ответ или сообщение об ошибке
     """
     claims = get_jwt()
@@ -117,7 +123,7 @@ def set_new_user_view():
 @user.route("/api/user/del", methods=["POST"])
 @jwt_required()
 def del_user_view():
-    """Получение списка пользователей.
+    """Удаление пользователя.
     :return: Json ответ или сообщение об ошибке
     """
     claims = get_jwt()

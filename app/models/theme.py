@@ -45,6 +45,7 @@ class Theme:
             else:
                 conn = get_db_connection()
                 cur = conn.cursor()
+                self.theme_id = None
                 data = self.serialize()
 
                 query = f"INSERT INTO {self.__tablename__} ({', '.join(data.keys())}) VALUES ({', '.join(['?'] * len(data.keys()))})"
@@ -96,7 +97,7 @@ class Theme:
             conn = get_db_connection()
             cur = conn.cursor()
 
-            query = "SELECT * FROM {{self.__tablename__}}"
+            query = f"SELECT * FROM {cls.__tablename__}"
 
             cur.execute(query)
             themes = cur.fetchall()

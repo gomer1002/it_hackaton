@@ -114,3 +114,18 @@ def response_logout(status: str, message: str, status_code: int):
         max_age=-1,
     )
     return response, status_code
+
+
+def check_rights(target, or_rights=[], and_rights=[]):
+    """Проверка наличия прав в target"""
+    result_and = True
+    result_or = False
+    if and_rights:
+        for and_right in and_rights:
+            result_and = result_and and (and_right in target)
+    if or_rights:
+        for or_right in or_rights:
+            result_or = result_or or (or_right in target)
+    else:
+        result_or = True
+    return result_or and result_and

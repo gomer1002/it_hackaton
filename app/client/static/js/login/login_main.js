@@ -44,8 +44,8 @@ function validateLogin(evt) {
         console.log("Sended data:", first_name, last_name, email, enc_password);
     }
 
-    // auth_me(email, password);
-    auth_me(email, enc_password);
+    auth_me(email, password);
+    // auth_me(email, enc_password);
 }
 
 function validateRegister(evt) {
@@ -62,8 +62,8 @@ function validateRegister(evt) {
         console.log("Sended data:", first_name, last_name, email, enc_password);
     }
 
-    // register_me(first_name, last_name, email, password);
-    register_me(first_name, last_name, email, enc_password);
+    register_me(first_name, last_name, email, password);
+    // register_me(first_name, last_name, email, enc_password);
 }
 
 function auth_me(email, password) {

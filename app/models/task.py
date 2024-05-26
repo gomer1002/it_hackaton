@@ -1,5 +1,6 @@
 from app import logger
 
+from app.services import get_time
 from app.models.services import get_db_connection
 from sqlite3 import IntegrityError
 
@@ -17,7 +18,6 @@ class Task:
         theme_id=None,
         task_template=None,
         task_additionals=None,
-        timestamp=None,
         timestamp_unix=None,
         task_contributor=None,
     ):
@@ -27,9 +27,8 @@ class Task:
         self.theme_id = theme_id
         self.task_template = task_template
         self.task_additionals = task_additionals
-        self.timestamp = timestamp
-        self.timestamp_unix = timestamp_unix
         self.task_contributor = task_contributor
+        self.timestamp_unix = get_time(get_timestamp=True)
 
     def serialize(self, with_register=False) -> dict:
         """Сериализация экземпляра класса в словарь.
@@ -46,8 +45,6 @@ class Task:
         if self.task_contributor:
             data["task_contributor"] = self.task_contributor
         if with_register:
-            if self.timestamp:
-                data["timestamp"] = self.timestamp
             if self.timestamp_unix:
                 data["timestamp_unix"] = self.timestamp_unix
         return data
@@ -62,7 +59,7 @@ class Task:
             else:
                 conn = get_db_connection()
                 cur = conn.cursor()
-                data = self.serialize()
+                data = self.serialize(with_register=True)
 
                 query = f"INSERT INTO {self.__tablename__} ({', '.join(data.keys())}) VALUES ({', '.join(['?'] * len(data.keys()))})"
 
@@ -128,11 +125,10 @@ class Task:
                 data[k] = {
                     "task_id": ud["task_id"],
                     "theme_id": ud["theme_id"],
+                    "task_contributor": ud["task_contributor"],
                     "task_template": ud["task_template"],
                     "task_additionals": ud["task_additionals"],
-                    "timestamp": ud["timestamp"],
                     "timestamp_unix": ud["timestamp_unix"],
-                    "task_contributor": ud["task_contributor"],
                 }
                 k += 1
             return data
@@ -180,11 +176,10 @@ class Task:
                 data[k] = {
                     "task_id": ud["task_id"],
                     "theme_id": ud["theme_id"],
+                    "task_contributor": ud["task_contributor"],
                     "task_template": ud["task_template"],
                     "task_additionals": ud["task_additionals"],
-                    "timestamp": ud["timestamp"],
                     "timestamp_unix": ud["timestamp_unix"],
-                    "task_contributor": ud["task_contributor"],
                 }
                 k += 1
             return data
