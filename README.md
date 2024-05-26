@@ -252,7 +252,7 @@ CREATE TABLE themes (
 - **Request Headers**:
   - `Authorization` (string): JWT токен в формате "Bearer".
 - **Request Body**:
-  - JSON-объект, содержащий данные пользователя.
+  - JSON-объект, содержащий данные задания.
 - **Response**:
   - **Status Codes**:
     - `200` (OK): Изменения внесены.
@@ -269,7 +269,7 @@ CREATE TABLE themes (
 - **Request Headers**:
   - `Authorization` (string): JWT токен в формате "Bearer".
 - **Request Body**:
-  - JSON-объект, содержащий данные пользователя.
+  - JSON-объект, содержащий данные задания.
 - **Response**:
   - **Status Codes**:
     - `200` (OK): Изменения внесены.
@@ -300,7 +300,7 @@ CREATE TABLE themes (
 - **Request Headers**:
   - `Authorization` (string): JWT токен в формате "Bearer".
 - **Request Body**:
-  - JSON-объект, содержащий данные пользователя.
+  - JSON-объект, содержащий данные темы.
 - **Response**:
   - **Status Codes**:
     - `200` (OK): Изменения внесены.
@@ -317,7 +317,7 @@ CREATE TABLE themes (
 - **Request Headers**:
   - `Authorization` (string): JWT токен в формате "Bearer".
 - **Request Body**:
-  - JSON-объект, содержащий данные пользователя.
+  - JSON-объект, содержащий данные темы.
 - **Response**:
   - **Status Codes**:
     - `200` (OK): Изменения внесены.
